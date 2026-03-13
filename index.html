@@ -438,6 +438,15 @@
           <div class="form-label">GET THE SECRET LOCATION!!!</div>
 
           <form id="accessForm">
+            <label class="input-label">YOUR NAME:</label>
+            <input
+              type="text"
+              id="name"
+              placeholder="Enter your name"
+              required
+              autocomplete="name"
+            >
+
             <label class="input-label">EMAIL ADDRESS:</label>
             <input
               type="email"
@@ -445,6 +454,8 @@
               placeholder="your@email.com"
               required
               autocomplete="email"
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+              title="Please enter a valid email address"
             >
 
             <label class="input-label">SECRET CODE (only if you got one):</label>
@@ -453,6 +464,7 @@
               id="code"
               placeholder="Most people leave this blank"
               autocomplete="off"
+              readonly
             >
 
             <button type="submit" id="submitBtn">
@@ -478,51 +490,12 @@
           <marquee>⭐ THANKS FOR SIGNING UP!!! ⭐ SEE YOU THERE!!! ⭐</marquee>
         </div>
 
-        <!-- Address -->
-        <div class="info-section">
-          <h2>📍 VENUE ADDRESS 📍</h2>
-          <div class="address-box">
-            123 TECHNO STREET<br>
-            DETROIT, MI 48201
-          </div>
-          <p style="text-align: center;">
-            <strong>DOORS:</strong> 10PM<br>
-            <strong>AGE:</strong> 21+<br>
-            <strong>COVER:</strong> $10<br>
-            <strong>DRESS CODE:</strong> Express yourself!!!
-          </p>
-        </div>
-
-        <!-- Map -->
-        <div class="map-container">
-          <h3 style="color: #000080; margin-bottom: 10px;">🗺️ HOW TO GET THERE 🗺️</h3>
-          <img src="map.jpg" alt="Map to venue" id="mapImage" style="display: none;">
-          <div id="mapPlaceholder" style="background: #e0e0e0; padding: 40px; border: 2px dashed #808080;">
-            <p style="color: #808080;">[MAP IMAGE GOES HERE]</p>
-            <p style="color: #808080; font-size: 12px; margin-top: 10px;">
-              Upload map image as "map.jpg" to show here
-            </p>
-          </div>
-        </div>
-
-        <!-- Instructions -->
-        <div class="instructions">
-          <h3>📋 PARTY INSTRUCTIONS 📋</h3>
-          <ul>
-            <li><strong>PARKING:</strong> Street parking available on side streets</li>
-            <li><strong>ENTRY:</strong> Look for the door with the green light!</li>
-            <li><strong>COAT CHECK:</strong> $5 cash only</li>
-            <li><strong>DRINKS:</strong> Cash bar, ATM on site</li>
-            <li><strong>VIBES:</strong> Respect the space, respect each other!!!</li>
-          </ul>
-        </div>
-
-        <!-- Share notice -->
-        <div class="info-section">
-          <h2>🚨 IMPORTANT 🚨</h2>
-          <p style="text-align: center;">
-            <strong>DON'T SHARE THIS ADDRESS PUBLICLY!!!</strong><br>
-            See you on the dance floor!!! 🎵
+        <!-- Party Info Image (1080x1080) -->
+        <div style="text-align: center; margin: 20px auto; max-width: 600px;">
+          <img src="party-info.png" alt="Party Information" style="width: 100%; height: auto; border: 4px solid #000000; box-shadow: 8px 8px 0 rgba(0,0,0,0.3);">
+          <p style="margin-top: 15px; color: #ff0000; font-weight: bold; text-align: center;">
+            SAVE THIS IMAGE!!! 📸<br>
+            DON'T SHARE PUBLICLY!!!
           </p>
         </div>
       </div>
@@ -533,67 +506,22 @@
           <marquee>🌟 VIP GUEST LIST CONFIRMED!!! 🌟 YOU'RE ON THE LIST!!! 🌟</marquee>
         </div>
 
-        <!-- VIP Status -->
+        <!-- VIP Status Badge -->
         <div class="info-section" style="background: #ffff00; border-color: #ff0000;">
           <h2 style="color: #ff0000;">⭐ VIP GUEST LIST ⭐</h2>
           <p style="text-align: center; font-size: 18px; color: #000000;">
             <strong>YOU'RE ON THE GUEST LIST!!!</strong><br>
-            Pass Code: <span id="vipPassNumber" style="color: #ff0000;"></span><br>
-            <br>
-            <strong>NO COVER CHARGE!!!</strong><br>
-            Just show this page at the door!!!
+            Your Code: <span id="vipPassNumber" style="color: #ff0000; font-weight: bold;"></span><br>
           </p>
         </div>
 
-        <!-- Address -->
-        <div class="info-section">
-          <h2>📍 VENUE ADDRESS 📍</h2>
-          <div class="address-box">
-            123 TECHNO STREET<br>
-            DETROIT, MI 48201
-          </div>
-          <p style="text-align: center;">
-            <strong>DOORS:</strong> 10PM<br>
-            <strong>VIP ENTRY:</strong> 9:30PM (early access!!!)<br>
-            <strong>AGE:</strong> 21+<br>
-            <strong>COVER:</strong> <span style="color: #ff0000; font-weight: bold;">FREE FOR YOU!!!</span><br>
-            <strong>DRESS CODE:</strong> Express yourself!!!
-          </p>
-        </div>
-
-        <!-- Map -->
-        <div class="map-container">
-          <h3 style="color: #000080; margin-bottom: 10px;">🗺️ HOW TO GET THERE 🗺️</h3>
-          <img src="map.jpg" alt="Map to venue" id="vipMapImage" style="display: none;">
-          <div id="vipMapPlaceholder" style="background: #e0e0e0; padding: 40px; border: 2px dashed #808080;">
-            <p style="color: #808080;">[MAP IMAGE GOES HERE]</p>
-            <p style="color: #808080; font-size: 12px; margin-top: 10px;">
-              Upload map image as "map.jpg" to show here
-            </p>
-          </div>
-        </div>
-
-        <!-- VIP Instructions -->
-        <div class="instructions" style="background: #ffff00; color: #000000; border-color: #ff0000;">
-          <h3 style="color: #ff0000;">📋 VIP INSTRUCTIONS 📋</h3>
-          <ul style="color: #000000;">
-            <li><strong>ARRIVAL:</strong> Come early! VIP entry at 9:30PM</li>
-            <li><strong>PARKING:</strong> Reserved spots on north side</li>
-            <li><strong>ENTRY:</strong> Show this page to skip the line!</li>
-            <li><strong>PASSWORD:</strong> Say "GUEST LIST" at the door</li>
-            <li><strong>COAT CHECK:</strong> FREE for VIP!</li>
-            <li><strong>DRINKS:</strong> First drink on us! Cash bar after that</li>
-            <li><strong>COLLECTIBLE:</strong> You'll get your #<span id="collectibleNumber"></span> collectible emailed after the event!</li>
-          </ul>
-        </div>
-
-        <!-- Share notice -->
-        <div class="info-section" style="background: #ff0000; border-color: #800000;">
-          <h2 style="color: #ffff00;">🚨 VIP ONLY 🚨</h2>
-          <p style="text-align: center; color: #ffff00;">
-            <strong>DON'T SHARE THIS INFO!!!</strong><br>
-            This is for guest list only!<br>
-            See you at 9:30PM!!! 🎵
+        <!-- Same Party Info Image (1080x1080) -->
+        <div style="text-align: center; margin: 20px auto; max-width: 600px;">
+          <img src="party-info.png" alt="Party Information" style="width: 100%; height: auto; border: 4px solid #ff0000; box-shadow: 8px 8px 0 rgba(255,0,0,0.3);">
+          <p style="margin-top: 15px; color: #ff0000; font-weight: bold; text-align: center;">
+            🌟 SAVE THIS IMAGE!!! 📸<br>
+            SHOW AT THE DOOR FOR VIP ACCESS!!!<br>
+            DON'T SHARE - GUEST LIST ONLY!!!
           </p>
         </div>
       </div>
@@ -641,6 +569,30 @@
     // ⏰ REDEMPTION CLOSES AT 3AM ON 3/14/2026
     const REDEMPTION_END_TIME = new Date('2026-03-14T03:00:00-05:00'); // Eastern Time
 
+    // Valid guest list codes (all 99 unique codes)
+    const VALID_GUEST_LIST_CODES = [
+      "AMPPHDPbMwBw", "QOQSXI5-lTBF", "RJUDc-UTGq8l", "YYISfYlA4Fdn", "NJJJZtBc3zjL",
+      "LPJR-MxGPiT_", "GKICM00hA3zX", "LYZZEDC03kaL", "IBIY2Kj-mFXU", "FBWVdvgW2bQ2",
+      "TYMIPjAqY_uq", "VESGvkQjfUeD", "EWBJq5jViFaQ", "KFHZ6bPj7fFC", "VJTJRQ70ckSM",
+      "GRWXCit7JYcx", "PTHG4AyWfbhj", "KWWH1ZP3Y-iw", "NJYMShgKZpV9", "EXZZjY0yLzB6",
+      "LCGW-976kHtX", "RQAUFyBl7faR", "CLKKL4Yi0cOJ", "YCEDYeT8qEFx", "PULKcmkresYc",
+      "ELDN1yWmzodD", "YOEPYcyzFNMh", "OLLORVlr5PPx", "ISKTl2pQM-KU", "QKBRfT1khGLN",
+      "APVZaqVMtFil", "EAKKjSU8qBsR", "CCELeVSaInec", "LMGJwvJtnXsT", "FNODvxEioIzN",
+      "IAWRk-DwHNfz", "WWSKziv0cu_l", "CERFVxQWDNHm", "KIDT0aPplLfw", "SHIWY1WPVG7E",
+      "CORDnmhUjg4m", "BUGMqXZyjNdP", "OWJNTrWMQn2e", "QEEQw2O0NTmP", "XFFUfbbvxRS4",
+      "SKDGm-Vzs2de", "CXAYTFeG9aSd", "VRKKnEDidhQg", "HUICOO4ClUTe", "IAFVFxRQcmk9",
+      "WZGJkxLvXkgW", "VIOKshoFShZF", "QDDCuzi8wgO_", "PMHS6AGiUxZs", "NBKWRj3nHoRE",
+      "AFDPtbP-IaGi", "KWSQvfDc1Cv5", "WJBC9zoKiVjl", "BPWCbApYg0Gf", "SENOtxe4TAbI",
+      "UKDZVRxiCQoA", "KMTLwOQO10eD", "TWLPjhpTmiaT", "NYXLjFb_HxUE", "JBKRCDMWXsD7",
+      "FEVEpDlnqDc1", "XURTLTE4zzU4", "GSNGbqWbJwpV", "QHGGl_NJ1hua", "RKDZFOs1zC3x",
+      "ADJJ6fYMGNhs", "CUDApoomwYkP", "XVLAv3cpOxoa", "TYFDk3N8lVpH", "JNZLnHeWH4Z2",
+      "QLYAPOg_xEgs", "KYJQmEtzNHtX", "JLXK9mDFE3BS", "MKXLxQyD4JjE", "XTPVCizdBB8p",
+      "CJUQcZfNZSdB", "LWKPR0fKHdJ-", "DMZHmEhyYdd2", "DSDVqjdaqIE3", "MKYVKLIAQfq4",
+      "UDYPBUj2Ezat", "AICDoDQEOd4y", "LUAKdkZtwNzC", "WQNFRzAjpc01", "YZZDxz9Pohoi",
+      "HYSFo_XWnJfe", "FYWQxGqqogyQ", "EXVYoi53mZ-z", "MBYUrdBKeChP", "ITLLXt0BoKvP",
+      "FFTMzRV5ruEs", "TJATTnZzx1z5", "UWUH5dOcbFQr", "HJMSX8UYtxBj"
+    ];
+
     // Audio setup
     const bgAudio = document.getElementById('bgAudio');
     const audioNotice = document.getElementById('audioNotice');
@@ -674,41 +626,37 @@
     const promoterId = params.get('pid') || 'direct';
     const codeInput = document.getElementById('code');
 
+    // Auto-fill code from URL if present
     if (urlCode) {
       codeInput.value = urlCode;
       codeInput.style.background = '#ffff00';
+      codeInput.style.fontWeight = 'bold';
+    } else {
+      // Make code field editable if no URL code
+      codeInput.removeAttribute('readonly');
     }
 
-    // AIRTABLE WEBHOOK - Update this URL
-    const AIRTABLE_WEBHOOK = 'YOUR-AIRTABLE-WEBHOOK-URL'; // Single webhook for all tracking
+    // GOOGLE SHEETS URL - Update this with your Google Apps Script Web App URL
+    const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwfxAiO6tGwsyWnfv5l4szNQpWvNZ8HyTGRPQKswm48lcUqBXcSTYRqHVyacyHg7dyC/exec';
 
-    // Track event (scan or email)
-    async function trackEvent(eventType, data) {
+    // Submit to Google Sheets
+    async function submitToGoogleSheets(data) {
       try {
-        await fetch(AIRTABLE_WEBHOOK, {
+        const response = await fetch(GOOGLE_SHEETS_URL, {
           method: 'POST',
+          mode: 'no-cors', // Google Apps Script handles CORS
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            ...data,
-            eventType: eventType,
-            timestamp: new Date().toISOString()
-          })
+          body: JSON.stringify(data)
         });
-        console.log(`${eventType} tracked:`, data);
+        console.log('Submitted to Google Sheets:', data);
+        return true;
       } catch (error) {
-        console.error(`Failed to track ${eventType}:`, error);
+        console.error('Failed to submit to Google Sheets:', error);
+        return false;
       }
     }
 
-    // Track QR scan on page load (only once per session)
-    const hasTrackedScan = sessionStorage.getItem('tracked_scan');
-    if (!hasTrackedScan) {
-      trackEvent('scan', {
-        cid: urlCode || 'none',
-        pid: promoterId
-      });
-      sessionStorage.setItem('tracked_scan', 'true');
-    }
+    // No automatic tracking - only track when form is submitted
 
     // Check redemption status
     function checkRedemptionStatus() {
@@ -746,17 +694,6 @@
       }
     }
 
-    // Check if map image exists and show it
-    const mapImg = document.getElementById('mapImage');
-    mapImg.onerror = function() {
-      this.style.display = 'none';
-    };
-    mapImg.onload = function() {
-      this.style.display = 'block';
-      this.previousElementSibling.style.display = 'none';
-    };
-    mapImg.src = 'map.jpg'; // Try to load map.jpg
-
     // Form submission
     const form = document.getElementById('accessForm');
     const submitBtn = document.getElementById('submitBtn');
@@ -766,31 +703,44 @@
 
       if (!checkRedemptionStatus()) return;
 
+      const name = document.getElementById('name').value;
       const email = document.getElementById('email').value;
       const code = document.getElementById('code').value.trim();
+
+      // Simple email validation
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(email)) {
+        alert('Please enter a valid email address!');
+        return;
+      }
 
       submitBtn.disabled = true;
       submitBtn.innerHTML = '⏳ LOADING... ⏳';
 
       try {
-        // Track email submission to Airtable
-        await trackEvent('email_submission', {
+        // Validate guest list code if provided
+        const isValidGuestList = code && VALID_GUEST_LIST_CODES.includes(code);
+
+        // Submit to Google Sheets
+        await submitToGoogleSheets({
+          name: name,
           email: email,
-          cid: code || 'none',
-          pid: promoterId
+          code: code || 'none',
+          pid: promoterId,
+          isValidGuestList: isValidGuestList
         });
 
         // Hide form, show appropriate party info
         document.getElementById('formSection').style.display = 'none';
 
-        // Show different pages based on whether they have a guest list code
-        if (code && code.length > 0) {
-          // VIP guest list holder
+        // Show different pages based on valid guest list code
+        if (isValidGuestList) {
+          // VIP guest list holder - VALID CODE
           document.getElementById('guestListInfo').classList.add('show');
           document.getElementById('vipPassNumber').textContent = code;
-          document.getElementById('collectibleNumber').textContent = code.substring(0, 6);
+          document.getElementById('collectibleNumber').textContent = code.substring(0, 4); // 4-letter display code
         } else {
-          // Regular attendee
+          // Regular attendee - no code or invalid code
           document.getElementById('regularInfo').classList.add('show');
         }
 
@@ -800,7 +750,7 @@
       } catch (error) {
         alert('Error! Try again!!!');
         submitBtn.disabled = false;
-        submitBtn.innerHTML = '🎉 UNLOCK PARTY INFO!!! 🎉';
+        submitBtn.innerHTML = '🔓 REVEAL THE LOCATION!!! 🔓';
       }
     });
 
