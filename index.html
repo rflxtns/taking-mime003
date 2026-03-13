@@ -438,6 +438,15 @@
           <div class="form-label">GET THE SECRET LOCATION!!!</div>
 
           <form id="accessForm">
+            <label class="input-label">YOUR NAME:</label>
+            <input
+              type="text"
+              id="name"
+              placeholder="Enter your name"
+              required
+              autocomplete="name"
+            >
+
             <label class="input-label">EMAIL ADDRESS:</label>
             <input
               type="email"
@@ -445,6 +454,8 @@
               placeholder="your@email.com"
               required
               autocomplete="email"
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+              title="Please enter a valid email address"
             >
 
             <label class="input-label">SECRET CODE (only if you got one):</label>
@@ -453,6 +464,7 @@
               id="code"
               placeholder="Most people leave this blank"
               autocomplete="off"
+              readonly
             >
 
             <button type="submit" id="submitBtn">
@@ -614,41 +626,37 @@
     const promoterId = params.get('pid') || 'direct';
     const codeInput = document.getElementById('code');
 
+    // Auto-fill code from URL if present
     if (urlCode) {
       codeInput.value = urlCode;
       codeInput.style.background = '#ffff00';
+      codeInput.style.fontWeight = 'bold';
+    } else {
+      // Make code field editable if no URL code
+      codeInput.removeAttribute('readonly');
     }
 
-    // AIRTABLE WEBHOOK - Update this URL
-    const AIRTABLE_WEBHOOK = 'YOUR-AIRTABLE-WEBHOOK-URL'; // Single webhook for all tracking
+    // GOOGLE SHEETS URL - Update this with your Google Apps Script Web App URL
+    const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID_HERE/exec';
 
-    // Track event (scan or email)
-    async function trackEvent(eventType, data) {
+    // Submit to Google Sheets
+    async function submitToGoogleSheets(data) {
       try {
-        await fetch(AIRTABLE_WEBHOOK, {
+        const response = await fetch(GOOGLE_SHEETS_URL, {
           method: 'POST',
+          mode: 'no-cors', // Google Apps Script handles CORS
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            ...data,
-            eventType: eventType,
-            timestamp: new Date().toISOString()
-          })
+          body: JSON.stringify(data)
         });
-        console.log(`${eventType} tracked:`, data);
+        console.log('Submitted to Google Sheets:', data);
+        return true;
       } catch (error) {
-        console.error(`Failed to track ${eventType}:`, error);
+        console.error('Failed to submit to Google Sheets:', error);
+        return false;
       }
     }
 
-    // Track QR scan on page load (only once per session)
-    const hasTrackedScan = sessionStorage.getItem('tracked_scan');
-    if (!hasTrackedScan) {
-      trackEvent('scan', {
-        cid: urlCode || 'none',
-        pid: promoterId
-      });
-      sessionStorage.setItem('tracked_scan', 'true');
-    }
+    // No automatic tracking - only track when form is submitted
 
     // Check redemption status
     function checkRedemptionStatus() {
@@ -695,8 +703,16 @@
 
       if (!checkRedemptionStatus()) return;
 
+      const name = document.getElementById('name').value;
       const email = document.getElementById('email').value;
       const code = document.getElementById('code').value.trim();
+
+      // Simple email validation
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(email)) {
+        alert('Please enter a valid email address!');
+        return;
+      }
 
       submitBtn.disabled = true;
       submitBtn.innerHTML = '⏳ LOADING... ⏳';
@@ -705,11 +721,13 @@
         // Validate guest list code if provided
         const isValidGuestList = code && VALID_GUEST_LIST_CODES.includes(code);
 
-        // Track email submission to Airtable
-        await trackEvent('email_submission', {
+        // Submit to Google Sheets
+        await submitToGoogleSheets({
+          name: name,
           email: email,
-          cid: isValidGuestList ? code : 'none',
-          pid: promoterId
+          code: code || 'none',
+          pid: promoterId,
+          isValidGuestList: isValidGuestList
         });
 
         // Hide form, show appropriate party info
