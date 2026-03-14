@@ -423,7 +423,7 @@
 
       <!-- Countdown -->
       <div class="countdown-box" id="countdown">
-        <div class="countdown-label">SECRET ACCESS EXPIRES IN:</div>
+        <div class="countdown-label">THE RFLXTNS DJs GO TO SLEEP IN:</div>
         <div class="countdown-timer" id="timer">--:--:--</div>
       </div>
 
@@ -468,19 +468,18 @@
             >
 
             <button type="submit" id="submitBtn">
-              🔓 REVEAL THE LOCATION!!! 🔓
+              SUBMIT FOR LOCATION
             </button>
           </form>
         </div>
 
         <!-- Info box -->
         <div class="info-box">
-          <strong>⚠️ READ THIS FIRST:</strong><br>
+          <strong>READ THIS FIRST:</strong><br>
           • Enter your email to see where the party is!!!<br>
           • <strong>Got a special code?</strong> Enter it above for VIP perks!!! (most people don't have this)<br>
           • <strong>TIME IS RUNNING OUT!!!</strong> Access expires soon!!!<br>
-          • Page made with love (and MS Paint vibes) 💾<br>
-          • <strong>DONATIONS WELCOME!!!</strong> We appreciate it!!! ❤️<br>
+          • <strong>DONATIONS WELCOME!!!</strong> We appreciate it!!!<br>
         </div>
       </div>
 
@@ -567,7 +566,7 @@
 
   <script>
     // ⏰ REDEMPTION CLOSES AT 3AM ON 3/14/2026
-    const REDEMPTION_END_TIME = new Date('2026-03-14T03:00:00-05:00'); // Eastern Time
+    const REDEMPTION_END_TIME = new Date('2026-03-14T05:00:00-05:00'); // Eastern Time
 
     // Valid guest list codes (all 99 unique codes)
     const VALID_GUEST_LIST_CODES = [
@@ -637,7 +636,7 @@
     }
 
     // GOOGLE SHEETS URL - Update this with your Google Apps Script Web App URL
-    const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID_HERE/exec';
+    const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwfxAiO6tGwsyWnfv5l4szNQpWvNZ8HyTGRPQKswm48lcUqBXcSTYRqHVyacyHg7dyC/exec';
 
     // Submit to Google Sheets
     async function submitToGoogleSheets(data) {
@@ -719,13 +718,35 @@
 
       try {
         // Validate guest list code if provided
-        const isValidGuestList = code && VALID_GUEST_LIST_CODES.includes(code);
+        // Accept BOTH 4-letter short codes (like "AMPP") AND full 12-char codes
+        let isValidGuestList = false;
+        let fullCode = code;
+        let shortCode = '';
+
+        if (code) {
+          if (code.length === 4) {
+            // User entered 4-letter code - find matching full code
+            const matchingCode = VALID_GUEST_LIST_CODES.find(c => c.substring(0, 4).toUpperCase() === code.toUpperCase());
+            if (matchingCode) {
+              isValidGuestList = true;
+              fullCode = matchingCode;
+              shortCode = matchingCode.substring(0, 4);
+            }
+          } else {
+            // User entered full code - validate directly
+            if (VALID_GUEST_LIST_CODES.includes(code)) {
+              isValidGuestList = true;
+              fullCode = code;
+              shortCode = code.substring(0, 4);
+            }
+          }
+        }
 
         // Submit to Google Sheets
         await submitToGoogleSheets({
           name: name,
           email: email,
-          code: code || 'none',
+          code: fullCode || 'none',
           pid: promoterId,
           isValidGuestList: isValidGuestList
         });
@@ -737,8 +758,8 @@
         if (isValidGuestList) {
           // VIP guest list holder - VALID CODE
           document.getElementById('guestListInfo').classList.add('show');
-          document.getElementById('vipPassNumber').textContent = code;
-          document.getElementById('collectibleNumber').textContent = code.substring(0, 4); // 4-letter display code
+          document.getElementById('vipPassNumber').textContent = fullCode;
+          document.getElementById('collectibleNumber').textContent = shortCode; // 4-letter display code
         } else {
           // Regular attendee - no code or invalid code
           document.getElementById('regularInfo').classList.add('show');
