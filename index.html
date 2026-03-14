@@ -786,7 +786,16 @@
         if (isValidGuestList) {
           const codeCheck = await checkCodeStatus(fullCode);
           if (codeCheck.status === 'error') {
-            alert('⚠️ THIS CODE HAS ALREADY BEEN USED! ⚠️\n\nEach guest list pass can only be redeemed once.\n\nIf this is an error, contact the organizer.');
+            alert('⚠️ THIS CODE HAS ALREADY BEEN USED! ⚠️\n\nEach guest list pass can only be redeemed once.\n\nThe code field has been cleared. If you have a different code, please enter it and try again.');
+
+            // Clear the code field and allow retry
+            codeInput.value = '';
+            codeInput.style.background = '#ffffff';
+            codeInput.style.fontWeight = 'normal';
+            codeInput.removeAttribute('readonly');
+            codeInput.focus();
+
+            // Re-enable submit button
             submitBtn.disabled = false;
             submitBtn.innerHTML = '🔓 REVEAL THE LOCATION!!! 🔓';
             return;
