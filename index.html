@@ -434,6 +434,16 @@
 
       <!-- Main form -->
       <div id="formSection">
+        <!-- Guest List Badge (shown when valid code detected) -->
+        <div id="guestListBadge" style="display: none; background: linear-gradient(45deg, #ffff00, #00ff00); border: 4px solid #ff0000; padding: 15px; margin-bottom: 20px; text-align: center; animation: rainbow 2s linear infinite;">
+          <h2 style="margin: 0; color: #ff0000; font-size: 28px; text-shadow: 2px 2px 0 #000000;">
+            🌟 GUEST LIST CODE DETECTED! 🌟
+          </h2>
+          <p style="margin: 10px 0 0 0; font-size: 18px; color: #000000; font-weight: bold;">
+            Enter your info to see if you got the FREE spot!
+          </p>
+        </div>
+
         <div class="form-box">
           <div class="form-label">GET THE SECRET LOCATION!!!</div>
 
@@ -467,10 +477,10 @@
         <!-- Info box -->
         <div class="info-box">
           <strong>READ THIS FIRST:</strong><br>
-          • Enter your email to see where the party is!!!<br>
-          • <strong>Got a special code?</strong> Enter it above for VIP perks!!! (most people don't have this)<br>
+          • Enter your name and email to see where the party is!!!<br>
+          • <strong>Got a guest list QR code?</strong> Scan it to potentially get FREE entry!<br>
           • <strong>TIME IS RUNNING OUT!!!</strong> Access expires soon!!!<br>
-          • <strong>DONATIONS WELCOME!!!</strong> We appreciate it!!!<br>
+          • <strong>Entry: $20 at the door</strong> (unless you're on the guest list!)<br>
         </div>
       </div>
 
@@ -674,6 +684,11 @@
     const params = new URLSearchParams(window.location.search);
     const urlCode = params.get('cid'); // Guest list code from QR scan
     const promoterId = params.get('pid') || 'direct'; // Promoter tracking
+
+    // Show guest list badge if valid code detected
+    if (urlCode && VALID_GUEST_LIST_CODES.includes(urlCode)) {
+      document.getElementById('guestListBadge').style.display = 'block';
+    }
 
     // GOOGLE SHEETS URL - Update this with your Google Apps Script Web App URL
     const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwfxAiO6tGwsyWnfv5l4szNQpWvNZ8HyTGRPQKswm48lcUqBXcSTYRqHVyacyHg7dyC/exec';
