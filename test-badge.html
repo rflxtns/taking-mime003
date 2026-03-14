@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Test Badge</title>
+</head>
+<body style="font-family: Arial; padding: 20px;">
+  <h1>Guest List Badge Test</h1>
+
+  <div id="guestListBadge" style="display: none; background: linear-gradient(45deg, #ffff00, #00ff00); border: 4px solid #ff0000; padding: 15px; margin-bottom: 20px; text-align: center;">
+    <h2 style="margin: 0; color: #ff0000; font-size: 28px; text-shadow: 2px 2px 0 #000000;">
+      🌟 GUEST LIST CODE DETECTED! 🌟
+    </h2>
+    <p style="margin: 10px 0 0 0; font-size: 18px; color: #000000; font-weight: bold;">
+      Enter your info to see if you got the FREE spot!
+    </p>
+  </div>
+
+  <div style="border: 2px solid black; padding: 20px; background: #f0f0f0;">
+    <h3>Form would be here</h3>
+    <p>Name: <input type="text"></p>
+    <p>Email: <input type="email"></p>
+    <button>Submit</button>
+  </div>
+
+  <script>
+    // Get code from URL
+    const params = new URLSearchParams(window.location.search);
+    const urlCode = params.get('cid');
+
+    console.log('URL Code:', urlCode);
+
+    // Valid codes (just first 5 for testing)
+    const VALID_GUEST_LIST_CODES = [
+      "AMPPHDPbMwBw", "QOQSXI5-lTBF", "RJUDc-UTGq8l", "YYISfYlA4Fdn", "NJJJZtBc3zjL"
+    ];
+
+    // Check if valid
+    if (urlCode && VALID_GUEST_LIST_CODES.includes(urlCode)) {
+      console.log('Valid guest list code detected! Showing badge...');
+      document.getElementById('guestListBadge').style.display = 'block';
+    } else {
+      console.log('No valid code detected');
+      console.log('URL Code:', urlCode);
+      console.log('Is in list?', VALID_GUEST_LIST_CODES.includes(urlCode));
+    }
+
+    // Show debug info
+    document.body.innerHTML += '<div style="margin-top: 30px; padding: 20px; background: #ffffcc; border: 2px solid orange;"><h3>Debug Info:</h3><p><b>URL:</b> ' + window.location.href + '</p><p><b>Code from URL:</b> ' + urlCode + '</p><p><b>Is Valid?:</b> ' + (urlCode && VALID_GUEST_LIST_CODES.includes(urlCode)) + '</p></div>';
+  </script>
+</body>
+</html>
