@@ -497,6 +497,19 @@
             DON'T SHARE PUBLICLY!!!
           </p>
         </div>
+
+        <!-- Google Maps Embed -->
+        <div class="info-section">
+          <h2>📍 LOCATION 📍</h2>
+          <div style="text-align: center; margin: 20px 0;">
+            <!-- REPLACE 'YOUR+ADDRESS+HERE' with your actual venue address -->
+            <!-- Example: "1234+Main+St+Detroit+MI+48201" -->
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4408.932477395777!2d-75.14151352294112!3d40.00820077150822!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c6b7ef1a6911d1%3A0x9e8f5ae7af81225f!2s3710-12%20N%206th%20St%2C%20Philadelphia%2C%20PA%2019140!5e1!3m2!1sen!2sus!4v1773447134801!5m2!1sen!2sus" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+          <p style="text-align: center; color: #ff0000; font-weight: bold;">
+            📌 UPDATE THE ADDRESS IN THE CODE 📌
+          </p>
+        </div>
       </div>
 
       <!-- VIP GUEST LIST INFO (with guest list code) -->
@@ -508,9 +521,16 @@
         <!-- VIP Status Badge -->
         <div class="info-section" style="background: #ffff00; border-color: #ff0000;">
           <h2 style="color: #ff0000;">⭐ VIP GUEST LIST ⭐</h2>
+          <p style="text-align: center; font-size: 24px; color: #000000; margin-bottom: 20px;">
+            <strong style="font-size: 28px; color: #ff0000;">
+              WELCOME <span id="guestName" style="text-transform: uppercase;"></span>!
+            </strong>
+          </p>
           <p style="text-align: center; font-size: 18px; color: #000000;">
             <strong>YOU'RE ON THE GUEST LIST!!!</strong><br>
             Your Code: <span id="vipPassNumber" style="color: #ff0000; font-weight: bold;"></span><br>
+            <br>
+            <strong style="color: #008000;">✅ VERIFIED - SHOW THIS AT THE DOOR ✅</strong>
           </p>
         </div>
 
@@ -638,20 +658,40 @@
     // GOOGLE SHEETS URL - Update this with your Google Apps Script Web App URL
     const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwfxAiO6tGwsyWnfv5l4szNQpWvNZ8HyTGRPQKswm48lcUqBXcSTYRqHVyacyHg7dyC/exec';
 
+    // Check if code has already been used
+    async function checkCodeStatus(code) {
+      try {
+        const response = await fetch(GOOGLE_SHEETS_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'checkCode',
+            code: code
+          }),
+          redirect: 'follow'
+        });
+        const result = await response.json();
+        return result;
+      } catch (error) {
+        console.error('Failed to check code status:', error);
+        return { status: 'error', message: 'Connection error' };
+      }
+    }
+
     // Submit to Google Sheets
     async function submitToGoogleSheets(data) {
       try {
         const response = await fetch(GOOGLE_SHEETS_URL, {
           method: 'POST',
-          mode: 'no-cors', // Google Apps Script handles CORS
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
+          body: JSON.stringify(data),
+          redirect: 'follow'
         });
         console.log('Submitted to Google Sheets:', data);
-        return true;
+        return { status: 'success' };
       } catch (error) {
         console.error('Failed to submit to Google Sheets:', error);
-        return false;
+        return { status: 'error', message: error.toString() };
       }
     }
 
@@ -742,14 +782,32 @@
           }
         }
 
+        // Check if code was already used (ONE-TIME USE)
+        if (isValidGuestList) {
+          const codeCheck = await checkCodeStatus(fullCode);
+          if (codeCheck.status === 'error') {
+            alert('⚠️ THIS CODE HAS ALREADY BEEN USED! ⚠️\n\nEach guest list pass can only be redeemed once.\n\nIf this is an error, contact the organizer.');
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '🔓 REVEAL THE LOCATION!!! 🔓';
+            return;
+          }
+        }
+
         // Submit to Google Sheets
-        await submitToGoogleSheets({
+        const result = await submitToGoogleSheets({
           name: name,
           email: email,
           code: fullCode || 'none',
           pid: promoterId,
           isValidGuestList: isValidGuestList
         });
+
+        if (result.status === 'error') {
+          alert('Error submitting! Please try again.');
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '🔓 REVEAL THE LOCATION!!! 🔓';
+          return;
+        }
 
         // Hide form, show appropriate party info
         document.getElementById('formSection').style.display = 'none';
@@ -758,6 +816,7 @@
         if (isValidGuestList) {
           // VIP guest list holder - VALID CODE
           document.getElementById('guestListInfo').classList.add('show');
+          document.getElementById('guestName').textContent = name; // Show their name
           document.getElementById('vipPassNumber').textContent = fullCode;
           document.getElementById('collectibleNumber').textContent = shortCode; // 4-letter display code
         } else {
