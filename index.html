@@ -458,17 +458,8 @@
               title="Please enter a valid email address"
             >
 
-            <label class="input-label">SECRET CODE (only if you got one):</label>
-            <input
-              type="text"
-              id="code"
-              placeholder="Most people leave this blank"
-              autocomplete="off"
-              readonly
-            >
-
             <button type="submit" id="submitBtn">
-              SUBMIT FOR LOCATION
+              🔓 REVEAL THE LOCATION!!! 🔓
             </button>
           </form>
         </div>
@@ -509,6 +500,46 @@
           <p style="text-align: center; color: #ff0000; font-weight: bold;">
             📌 UPDATE THE ADDRESS IN THE CODE 📌
           </p>
+        </div>
+      </div>
+
+      <!-- ALREADY REDEEMED - $20 ENTRY -->
+      <div class="party-info" id="alreadyRedeemedInfo">
+        <div class="marquee-container" style="margin-bottom: 20px; background: #ff8800;">
+          <marquee>⚠️ GUEST LIST CODE ALREADY USED ⚠️ $20 ENTRY AT DOOR ⚠️</marquee>
+        </div>
+
+        <!-- Already Redeemed Notice -->
+        <div class="info-section" style="background: #ffaa00; border-color: #ff0000;">
+          <h2 style="color: #ff0000;">GUEST LIST ALREADY REDEEMED</h2>
+          <p style="text-align: center; font-size: 20px; color: #000000; margin-bottom: 15px;">
+            This guest list code was already claimed by:<br>
+            <strong style="font-size: 26px; color: #ff0000;">
+              <span id="redeemerName"></span>
+            </strong>
+          </p>
+          <p style="text-align: center; font-size: 18px; color: #000000;">
+            <strong>💵 $20 ENTRY AT THE DOOR 💵</strong><br>
+            <br>
+            Each guest list pass can only be used once.<br>
+            You'll still get in, but standard entry fee applies!
+          </p>
+        </div>
+
+        <!-- Party Info Image -->
+        <div style="text-align: center; margin: 20px auto; max-width: 600px;">
+          <img src="party-info.png" alt="Party Information" style="width: 100%; height: auto; border: 4px solid #ff8800; box-shadow: 8px 8px 0 rgba(255,136,0,0.3);">
+          <p style="margin-top: 15px; color: #ff0000; font-weight: bold; text-align: center;">
+            SEE YOU THERE! 📸
+          </p>
+        </div>
+
+        <!-- Google Maps Embed -->
+        <div class="info-section">
+          <h2>📍 LOCATION 📍</h2>
+          <div style="text-align: center; margin: 20px 0;">
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4408.932477395777!2d-75.14151352294112!3d40.00820077150822!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c6b7ef1a6911d1%3A0x9e8f5ae7af81225f!2s3710-12%20N%206th%20St%2C%20Philadelphia%2C%20PA%2019140!5e1!3m2!1sen!2sus!4v1773447134801!5m2!1sen!2sus" width="100%" height="300" style="border: 3px solid #000000; border-radius: 0px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
         </div>
       </div>
 
@@ -639,56 +670,27 @@
       document.getElementById('visitors').textContent = visitorCount;
     }, 3000);
 
-    // Get code and promoter from URL
+    // Get code and promoter from URL (background detection)
     const params = new URLSearchParams(window.location.search);
-    const urlCode = params.get('cid');
-    const promoterId = params.get('pid') || 'direct';
-    const codeInput = document.getElementById('code');
-
-    // Auto-fill code from URL if present
-    if (urlCode) {
-      codeInput.value = urlCode;
-      codeInput.style.background = '#ffff00';
-      codeInput.style.fontWeight = 'bold';
-    } else {
-      // Make code field editable if no URL code
-      codeInput.removeAttribute('readonly');
-    }
+    const urlCode = params.get('cid'); // Guest list code from QR scan
+    const promoterId = params.get('pid') || 'direct'; // Promoter tracking
 
     // GOOGLE SHEETS URL - Update this with your Google Apps Script Web App URL
     const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwfxAiO6tGwsyWnfv5l4szNQpWvNZ8HyTGRPQKswm48lcUqBXcSTYRqHVyacyHg7dyC/exec';
 
-    // Check if code has already been used
-    async function checkCodeStatus(code) {
-      try {
-        const response = await fetch(GOOGLE_SHEETS_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            action: 'checkCode',
-            code: code
-          }),
-          redirect: 'follow'
-        });
-        const result = await response.json();
-        return result;
-      } catch (error) {
-        console.error('Failed to check code status:', error);
-        return { status: 'error', message: 'Connection error' };
-      }
-    }
-
-    // Submit to Google Sheets
+    // Submit to Google Sheets and get response
     async function submitToGoogleSheets(data) {
       try {
         const response = await fetch(GOOGLE_SHEETS_URL, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'text/plain' },
           body: JSON.stringify(data),
           redirect: 'follow'
         });
-        console.log('Submitted to Google Sheets:', data);
-        return { status: 'success' };
+
+        const result = await response.json();
+        console.log('Response from Google Sheets:', result);
+        return result;
       } catch (error) {
         console.error('Failed to submit to Google Sheets:', error);
         return { status: 'error', message: error.toString() };
@@ -742,9 +744,8 @@
 
       if (!checkRedemptionStatus()) return;
 
-      const name = document.getElementById('name').value;
-      const email = document.getElementById('email').value;
-      const code = document.getElementById('code').value.trim();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
 
       // Simple email validation
       const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -757,52 +758,18 @@
       submitBtn.innerHTML = '⏳ LOADING... ⏳';
 
       try {
-        // Validate guest list code if provided
-        // Accept BOTH 4-letter short codes (like "AMPP") AND full 12-char codes
+        // Code comes from URL (QR scan) - detected automatically
         let isValidGuestList = false;
-        let fullCode = code;
+        let fullCode = '';
         let shortCode = '';
 
-        if (code) {
-          if (code.length === 4) {
-            // User entered 4-letter code - find matching full code
-            const matchingCode = VALID_GUEST_LIST_CODES.find(c => c.substring(0, 4).toUpperCase() === code.toUpperCase());
-            if (matchingCode) {
-              isValidGuestList = true;
-              fullCode = matchingCode;
-              shortCode = matchingCode.substring(0, 4);
-            }
-          } else {
-            // User entered full code - validate directly
-            if (VALID_GUEST_LIST_CODES.includes(code)) {
-              isValidGuestList = true;
-              fullCode = code;
-              shortCode = code.substring(0, 4);
-            }
-          }
+        if (urlCode && VALID_GUEST_LIST_CODES.includes(urlCode)) {
+          isValidGuestList = true;
+          fullCode = urlCode;
+          shortCode = urlCode.substring(0, 4);
         }
 
-        // Check if code was already used (ONE-TIME USE)
-        if (isValidGuestList) {
-          const codeCheck = await checkCodeStatus(fullCode);
-          if (codeCheck.status === 'error') {
-            alert('⚠️ THIS CODE HAS ALREADY BEEN USED! ⚠️\n\nEach guest list pass can only be redeemed once.\n\nThe code field has been cleared. If you have a different code, please enter it and try again.');
-
-            // Clear the code field and allow retry
-            codeInput.value = '';
-            codeInput.style.background = '#ffffff';
-            codeInput.style.fontWeight = 'normal';
-            codeInput.removeAttribute('readonly');
-            codeInput.focus();
-
-            // Re-enable submit button
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = '🔓 REVEAL THE LOCATION!!! 🔓';
-            return;
-          }
-        }
-
-        // Submit to Google Sheets
+        // Submit to Google Sheets and get response
         const result = await submitToGoogleSheets({
           name: name,
           email: email,
@@ -821,15 +788,19 @@
         // Hide form, show appropriate party info
         document.getElementById('formSection').style.display = 'none';
 
-        // Show different pages based on valid guest list code
-        if (isValidGuestList) {
-          // VIP guest list holder - VALID CODE
+        // Determine which page to show
+        if (result.isValidCode && !result.alreadyRedeemed) {
+          // FIRST REDEMPTION - FREE VIP GUEST LIST
           document.getElementById('guestListInfo').classList.add('show');
-          document.getElementById('guestName').textContent = name; // Show their name
+          document.getElementById('guestName').textContent = name.toUpperCase();
           document.getElementById('vipPassNumber').textContent = fullCode;
-          document.getElementById('collectibleNumber').textContent = shortCode; // 4-letter display code
+          document.getElementById('collectibleNumber').textContent = shortCode;
+        } else if (result.isValidCode && result.alreadyRedeemed) {
+          // ALREADY REDEEMED - $20 ENTRY
+          document.getElementById('alreadyRedeemedInfo').classList.add('show');
+          document.getElementById('redeemerName').textContent = result.redeemedByName.toUpperCase();
         } else {
-          // Regular attendee - no code or invalid code
+          // NO CODE - REGULAR ENTRY
           document.getElementById('regularInfo').classList.add('show');
         }
 
