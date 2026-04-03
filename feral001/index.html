@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>FERAL FUSION</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Comic Sans MS', 'Chalkboard SE', 'Comic Neue', sans-serif;
+      background-color: #1a4a6a;
+      background-image: url("paper-texture-leopard-backgrounds-textures-8fb3ff-1024.webp");
+      background-attachment: fixed;
+      background-size: 400px auto;
+      min-height: 100vh;
+      padding: 10px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background-color: #3a8faa;
+      background-image: url("paper-texture-leopard-backgrounds-textures-8fb3ff-1024.webp");
+      background-size: 280px auto;
+      border: 6px outset #aa44cc;
+      outline: 3px solid #660088;
+      padding: 8px;
+    }
+
+    .title-bar {
+      background-color: #0a2a40;
+      background-image: url("paper-texture-leopard-backgrounds-textures-8fb3ff-1024.webp");
+      background-size: 150px auto;
+      background-blend-mode: multiply;
+      color: #6ecce8;
+      padding: 3px 5px;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .title-buttons {
+      display: flex;
+      gap: 3px;
+    }
+
+    .title-btn {
+      width: 16px;
+      height: 14px;
+      background: #c0c0c0;
+      border: 1px outset #dfdfdf;
+      font-size: 9px;
+      text-align: center;
+      line-height: 12px;
+      cursor: pointer;
+    }
+
+    .content {
+      background: white;
+      border: 2px inset #dfdfdf;
+      padding: 20px;
+      min-height: 400px;
+    }
+
+    h1 {
+      font-size: 48px;
+      text-align: center;
+      color: rgba(170, 221, 238, 0.35);
+      -webkit-text-stroke: 2px #000000;
+      margin-bottom: 10px;
+      animation: tigerGlow 3s linear infinite;
+    }
+
+    @keyframes tigerGlow {
+      0% { filter: brightness(1); }
+      50% { filter: brightness(1.3); }
+      100% { filter: brightness(1); }
+    }
+
+    .subtitle {
+      text-align: center;
+      font-family: 'Arial Black', Arial, sans-serif;
+      font-size: 13px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #000000;
+      text-decoration: none;
+      margin-bottom: 20px;
+    }
+
+    .marquee-container {
+      background-color: #2a1400;
+      background-image: url("Screenshot 2026-04-03 at 12.24.21 PM.png");
+      background-size: 400px auto;
+      background-blend-mode: multiply;
+      color: #FFD700;
+      padding: 5px;
+      margin: 15px 0;
+      overflow: hidden;
+      border: 3px solid #C05000;
+    }
+
+    marquee {
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .countdown-box {
+      background-color: #5a2800;
+      background-image: url("Screenshot 2026-04-03 at 12.24.21 PM.png");
+      background-size: 500px auto;
+      background-blend-mode: multiply;
+      border: 4px outset #C05000;
+      padding: 15px;
+      text-align: center;
+      margin: 15px 0;
+    }
+
+    .countdown-label {
+      font-size: 14px;
+      color: #E8A020;
+      font-weight: bold;
+    }
+
+    .countdown-timer {
+      font-size: 36px;
+      font-family: 'Arial Black', sans-serif;
+      color: #FFD700;
+      text-shadow: 2px 2px 0px #000000;
+      margin-top: 5px;
+    }
+
+    .blink {
+      animation: blink 1s linear infinite;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
+    .form-box {
+      background-color: #0d0d0d;
+      background-image: url("images.jpeg");
+      background-size: 350px auto;
+      background-blend-mode: color;
+      border: 4px solid #aa44cc;
+      padding: 15px;
+      margin: 20px 0;
+    }
+
+    .form-label {
+      font-size: 18px;
+      color: #FFD700;
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-decoration: underline;
+      text-shadow: 1px 1px 0 #000;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      font-family: 'Comic Sans MS', sans-serif;
+      font-size: 16px;
+      border: 2px inset #808080;
+      background: white;
+      margin: 8px 0;
+    }
+
+    .input-label {
+      font-size: 14px;
+      color: #FFD700;
+      font-weight: bold;
+      display: block;
+      margin-top: 12px;
+      text-shadow: 1px 1px 0 #000;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(to bottom, #E8A020, #8B4500);
+      border: 3px outset #C05000;
+      font-family: 'Arial Black', sans-serif;
+      font-size: 20px;
+      font-weight: bold;
+      color: #1a0800;
+      text-shadow: 1px 1px 0px rgba(255,200,0,0.5);
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    button:active {
+      border-style: inset;
+    }
+
+    button:disabled {
+      background: #808080;
+      color: #c0c0c0;
+    }
+
+    .info-box {
+      background-color: #6a3800;
+      background-image: url("Screenshot 2026-04-03 at 12.24.21 PM.png");
+      background-size: 400px auto;
+      background-blend-mode: multiply;
+      border: 3px double #E8A020;
+      padding: 12px;
+      margin: 15px 0;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #FDEBC8;
+    }
+
+    .info-box strong {
+      color: #FFD700;
+    }
+
+    /* Party info reveal */
+    .party-info {
+      display: none;
+    }
+
+    .party-info.show {
+      display: block;
+      animation: slideDown 0.5s ease;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .info-section {
+      background-color: #d4a050;
+      background-image: url("images (1).jpeg");
+      background-size: 350px auto;
+      background-blend-mode: overlay;
+      border: 5px double #1a0800;
+      padding: 20px;
+      margin: 15px 0;
+    }
+
+    .info-section h2 {
+      color: #1a0800;
+      font-size: 24px;
+      text-decoration: underline;
+      margin-bottom: 15px;
+      text-align: center;
+      text-shadow: 1px 1px 0 #E8A020;
+    }
+
+    .info-section p {
+      font-size: 16px;
+      line-height: 1.8;
+      color: #1a0800;
+      margin: 10px 0;
+      font-weight: bold;
+    }
+
+    .address-box {
+      background-color: #8a5000;
+      background-image: url("Screenshot 2026-04-03 at 12.24.21 PM.png");
+      background-size: 400px auto;
+      background-blend-mode: multiply;
+      border: 4px outset #E8A020;
+      padding: 15px;
+      text-align: center;
+      margin: 15px 0;
+      font-size: 20px;
+      font-weight: bold;
+      color: #FFD700;
+      text-shadow: 2px 2px 0 #000000;
+    }
+
+    .map-container {
+      text-align: center;
+      margin: 20px 0;
+      border: 4px ridge #E8A020;
+      padding: 10px;
+      background: #1a0800;
+    }
+
+    .map-container img {
+      max-width: 100%;
+      height: auto;
+      border: 2px solid #000000;
+    }
+
+    .instructions {
+      background-color: #1a1a1a;
+      background-image: url("images (1).jpeg");
+      background-size: 350px auto;
+      background-blend-mode: multiply;
+      color: #E8A020;
+      border: 4px solid #C05000;
+      padding: 15px;
+      margin: 15px 0;
+    }
+
+    .instructions h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+      text-decoration: underline;
+      color: #FFD700;
+    }
+
+    .instructions li {
+      margin: 8px 0;
+      line-height: 1.6;
+    }
+
+    .collectible-note {
+      background: #ffff00;
+      border: 3px dashed #ff0000;
+      padding: 15px;
+      margin: 15px 0;
+      text-align: center;
+      font-size: 16px;
+      font-weight: bold;
+      color: #000080;
+    }
+
+    .expired-box {
+      background: #1a0800;
+      border: 6px double #C05000;
+      padding: 30px;
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .expired-box h2 {
+      font-size: 36px;
+      color: #E8A020;
+      text-shadow: 3px 3px 0px #000000;
+      margin-bottom: 15px;
+    }
+
+    .expired-box p {
+      font-size: 18px;
+      color: #FDEBC8;
+      font-weight: bold;
+    }
+
+    /* 90s badges */
+    .badges {
+      margin: 15px 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 5px;
+      align-items: center;
+    }
+
+    .badge {
+      padding: 3px 8px;
+      font-size: 11px;
+      border: 1px outset #808080;
+    }
+
+    .counter {
+      background: #1a0800;
+      color: #E8A020;
+      font-family: 'Courier New', monospace;
+      padding: 5px 10px;
+      display: inline-block;
+      margin: 10px 0;
+      border: 2px solid #C05000;
+    }
+
+    .webring {
+      background-color: #4a2800;
+      background-image: url("Screenshot 2026-04-03 at 12.24.21 PM.png");
+      background-size: 300px auto;
+      background-blend-mode: multiply;
+      color: #FFD700;
+      border: 2px ridge #C05000;
+      padding: 8px;
+      text-align: center;
+      font-size: 11px;
+      margin-top: 15px;
+    }
+
+    /* Audio controls */
+    .audio-notice {
+      background: #E8A020;
+      border: 2px solid #C05000;
+      padding: 10px;
+      text-align: center;
+      font-size: 12px;
+      margin: 10px 0;
+      font-weight: bold;
+      color: #1a0800;
+    }
+
+    /* Logo */
+    .logo-container {
+      text-align: center;
+      margin: 15px 0;
+    }
+
+    .logo-container img {
+      max-width: 100%;
+      height: auto;
+      max-height: 200px;
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 32px;
+      }
+
+      .countdown-timer {
+        font-size: 28px;
+      }
+
+      button {
+        font-size: 16px;
+      }
+
+      .info-section h2 {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background audio (90s style) -->
+  <audio id="bgAudio" loop>
+    <source src="welcome.wav" type="audio/wav">
+    <source src="welcome.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="container">
+    <!-- Windows 95 style title bar -->
+    <div class="title-bar">
+      <span>FERAL FUSION - Netscape Navigator</span>
+      <div class="title-buttons">
+        <div class="title-btn">_</div>
+        <div class="title-btn">□</div>
+        <div class="title-btn">✕</div>
+      </div>
+    </div>
+
+    <div class="content">
+      <!-- Logo -->
+      <div class="logo-container">
+        <img src="Screenshot 2026-04-01 at 7.37.28 PM.png" alt="FERAL" id="logoImg" style="max-height: 160px; mix-blend-mode: multiply;">
+      </div>
+
+      <!-- Obnoxious title -->
+      <h1>FERAL FUSION</h1>
+      <div class="subtitle">HOUSE / BREAKS / TECHNO</div>
+
+      <!-- Audio notice -->
+      <div class="audio-notice" id="audioNotice" style="display: none;">
+        Click anywhere to enable sound!!!
+      </div>
+
+      <!-- Annoying marquee -->
+      <div class="marquee-container">
+        <marquee>⭐ WELCOME TO THE SECRET PAGE!!! ⭐ LIMITED ACCESS ONLY!!! ⭐ SIGN UP NOW!!! ⭐</marquee>
+      </div>
+
+      <!-- Countdown -->
+      <div class="countdown-box" id="countdown">
+        <div class="countdown-label">SECRET ACCESS EXPIRES IN:</div>
+        <div class="countdown-timer" id="timer">--:--:--</div>
+      </div>
+
+      <!-- Under construction style notice -->
+      <p class="construction blink" style="color: #C05000; font-size: 18px; font-weight: bold; text-align: center;">
+        PHILLY - DON'T WAIT TOO LONG!!!
+      </p>
+
+      <!-- Main form -->
+      <div id="formSection">
+        <!-- Guest List Badge (shown when valid code detected) -->
+        <div id="guestListBadge" style="display: none; background: linear-gradient(45deg, #E8A020, #aa44cc); border: 4px solid #000; padding: 15px; margin-bottom: 20px; text-align: center;">
+          <h2 style="margin: 0; color: #000; font-size: 22px; text-shadow: 1px 1px 0 #FFD700;">
+            GUEST LIST CODE DETECTED!!!
+          </h2>
+          <p style="margin: 10px 0 0 0; font-size: 16px; color: #000; font-weight: bold;">
+            Enter your info to claim your FREE spot!
+          </p>
+        </div>
+
+        <div class="form-box">
+          <div class="form-label">GET THE SECRET LOCATION!!!</div>
+
+          <form id="accessForm">
+            <label class="input-label">YOUR NAME:</label>
+            <input
+              type="text"
+              id="name"
+              placeholder="Enter your name"
+              required
+              autocomplete="name"
+            >
+
+            <label class="input-label">EMAIL ADDRESS:</label>
+            <input
+              type="email"
+              id="email"
+              placeholder="your@email.com"
+              required
+              autocomplete="email"
+            >
+
+            <button type="submit" id="submitBtn">
+              🔓 REVEAL THE LOCATION!!! 🔓
+            </button>
+          </form>
+        </div>
+
+      </div>
+
+      <!-- REGULAR PARTY INFO (no guest list code) -->
+      <div class="party-info" id="regularInfo">
+        <div class="marquee-container" style="margin-bottom: 20px;">
+          <marquee>⭐ THANKS FOR SIGNING UP!!! ⭐ SEE YOU THERE!!! ⭐</marquee>
+        </div>
+
+        <!-- Address -->
+        <div class="info-section">
+          <h2>📍 VENUE ADDRESS 📍</h2>
+          <div class="address-box">
+            3710 N 6TH ST<br>
+            PHILADELPHIA, PA 19140
+          </div>
+        </div>
+
+        <!-- Map -->
+        <div class="map-container">
+          <h3 style="color: #FFD700; margin-bottom: 10px;">HOW TO GET THERE</h3>
+          <iframe
+            src="https://maps.google.com/maps?q=3710+N+6th+St,+Philadelphia,+PA+19140&output=embed"
+            width="100%"
+            height="250"
+            style="border: 2px solid #000; display: block;"
+            allowfullscreen=""
+            loading="lazy">
+          </iframe>
+        </div>
+
+
+        <!-- Share notice -->
+        <div class="info-section">
+          <h2>IMPORTANT</h2>
+          <p style="text-align: center;">
+            <strong>DON'T SHARE THIS ADDRESS PUBLICLY!!!</strong><br>
+            See you on the dance floor!!!
+          </p>
+        </div>
+      </div>
+
+      <!-- ALREADY REDEEMED -->
+      <div class="party-info" id="alreadyRedeemedInfo">
+        <div class="marquee-container" style="margin-bottom: 20px;">
+          <marquee>GUEST LIST CODE ALREADY USED — $20 ENTRY AT DOOR</marquee>
+        </div>
+        <div class="info-section" style="background-color: #4a0000; background-image: url('images (1).jpeg'); background-size: 300px auto; background-blend-mode: multiply; border-color: #ff0000;">
+          <h2 style="color: #FFD700; text-shadow: 1px 1px 0 #000;">CODE ALREADY CLAIMED</h2>
+          <p style="text-align: center; font-size: 18px; color: #FDEBC8;">
+            This guest list code was already used by:<br>
+            <strong style="font-size: 24px; color: #FFD700;"><span id="redeemerName"></span></strong>
+          </p>
+          <p style="text-align: center; font-size: 18px; color: #FDEBC8; margin-top: 15px;">
+            <strong>$20 ENTRY AT THE DOOR</strong><br>
+            Each pass can only be used once.
+          </p>
+        </div>
+        <div class="info-section">
+          <h2>📍 VENUE ADDRESS 📍</h2>
+          <div class="address-box">3710 N 6TH ST<br>PHILADELPHIA, PA 19140</div>
+        </div>
+        <div class="map-container">
+          <h3 style="color: #FFD700; margin-bottom: 10px;">HOW TO GET THERE</h3>
+          <iframe src="https://maps.google.com/maps?q=3710+N+6th+St,+Philadelphia,+PA+19140&output=embed" width="100%" height="250" style="border: 2px solid #000; display: block;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+      </div>
+
+      <!-- VIP GUEST LIST INFO (with guest list code) -->
+      <div class="party-info" id="guestListInfo">
+        <div class="marquee-container" style="margin-bottom: 20px; background: #3D1800;">
+          <marquee>🌟 VIP GUEST LIST CONFIRMED!!! 🌟 YOU'RE ON THE LIST!!! 🌟</marquee>
+        </div>
+
+        <!-- VIP Status -->
+        <div class="info-section" style="background-color: #8a6000; background-image: url('images.jpeg'); background-size: 300px auto; background-blend-mode: overlay; border-color: #1a0800;">
+          <h2 style="color: #1a0800; text-shadow: 1px 1px 0 #FFD700;">⭐ VIP GUEST LIST ⭐</h2>
+          <p style="text-align: center; font-size: 18px; color: #1a0800;">
+            <strong style="font-size: 22px;">WELCOME <span id="guestName" style="text-transform: uppercase;"></span>!!!</strong><br><br>
+            <strong>YOU'RE ON THE GUEST LIST!!!</strong><br>
+            Pass Code: <span id="vipPassNumber" style="color: #3D1800; font-weight: bold;"></span><br>
+            <br>
+            <strong>NO COVER CHARGE!!!</strong><br>
+            Just show this page at the door!!!
+          </p>
+        </div>
+
+        <!-- Address -->
+        <div class="info-section">
+          <h2>📍 VENUE ADDRESS 📍</h2>
+          <div class="address-box">
+            3710 N 6TH ST<br>
+            PHILADELPHIA, PA 19140
+          </div>
+          <p style="text-align: center;">
+            <strong>VIP ENTRY:</strong> 9:30PM (early access!!!)<br>
+            <strong>COVER:</strong> <span style="color: #ff0000; font-weight: bold;">FREE FOR YOU!!!</span>
+          </p>
+        </div>
+
+        <!-- Map -->
+        <div class="map-container">
+          <h3 style="color: #FFD700; margin-bottom: 10px;">HOW TO GET THERE</h3>
+          <iframe
+            src="https://maps.google.com/maps?q=3710+N+6th+St,+Philadelphia,+PA+19140&output=embed"
+            width="100%"
+            height="250"
+            style="border: 2px solid #000; display: block;"
+            allowfullscreen=""
+            loading="lazy">
+          </iframe>
+        </div>
+
+        <!-- VIP Instructions -->
+        <div class="instructions" style="background-color: #2a2a00; background-image: url('images.jpeg'); background-size: 300px auto; background-blend-mode: overlay; color: #ffff00; border-color: #ff0000;">
+          <h3 style="color: #ffff00;">VIP INSTRUCTIONS</h3>
+          <ul style="color: #ffff00;">
+            <li><strong>ARRIVAL:</strong> Come early! VIP entry at 9:30PM</li>
+            <li><strong>PARKING:</strong> Reserved spots on north side</li>
+            <li><strong>ENTRY:</strong> Show this page to skip the line!</li>
+            <li><strong>PASSWORD:</strong> Say "GUEST LIST" at the door</li>
+            <li><strong>COAT CHECK:</strong> FREE for VIP!</li>
+            <li><strong>DRINKS:</strong> First drink on us! Cash bar after that</li>
+            <li><strong>COLLECTIBLE:</strong> You'll get your #<span id="collectibleNumber"></span> collectible emailed after the event!</li>
+          </ul>
+        </div>
+
+        <!-- Share notice -->
+        <div class="info-section" style="background-color: #800000; background-image: url('images (1).jpeg'); background-size: 300px auto; background-blend-mode: multiply; border-color: #ff0000;">
+          <h2 style="color: #ffff00; text-shadow: 2px 2px 0 #000;">VIP ONLY</h2>
+          <p style="text-align: center; color: #ffff00;">
+            <strong>DON'T SHARE THIS INFO!!!</strong><br>
+            This is for guest list only!<br>
+            See you at 9:30PM!!!
+          </p>
+        </div>
+      </div>
+
+      <!-- Expired state -->
+      <div id="expiredMessage" style="display: none;">
+        <div class="expired-box">
+          <h2>⛔ TOO LATE!!! ⛔</h2>
+          <p>THE WINDOW IS CLOSED!!!</p>
+          <p style="margin-top: 15px; font-size: 14px;">
+            Sorry you missed it!
+          </p>
+        </div>
+      </div>
+
+      <!-- Visitor counter (fake but nostalgic) -->
+      <center>
+        <div class="counter">VISITORS: <span id="visitors">123456</span></div>
+      </center>
+
+      <!-- 90s web badges -->
+      <center>
+        <div class="badges">
+          <span class="badge" style="background: #000080; color: white;">Netscape Now!</span>
+          <span class="badge" style="background: #ff0000; color: white;">AOL Compatible</span>
+          <span class="badge" style="background: #008080; color: white;">IE 4.0+</span>
+          <span class="badge" style="background: #ffff00; color: #000080; font-weight: bold;">GeoCities</span>
+          <span class="badge" style="background: #ff00ff; color: white;">Angelfire</span>
+          <span class="badge" style="background: #00ff00; color: #000000;">HTML 3.2</span>
+          <span class="badge" style="background: #000000; color: #00ff00; font-family: 'Courier New', monospace;">WAV Enabled</span>
+          <span class="badge" style="background: linear-gradient(to right, #ff0000, #0000ff); color: white;">RealPlayer</span>
+          <span class="badge" style="background: #c0c0c0; color: #000000; border: 2px ridge #808080;">Get Flash!</span>
+          <span class="badge" style="background: #800080; color: #ffff00;">56k Optimized</span>
+        </div>
+      </center>
+
+      <!-- Webring style footer -->
+      <div class="webring">
+        <marquee scrollamount="2">Best viewed in 800x600 | Geocities Webring Member | This page is best viewed with Netscape Navigator</marquee>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ⏰ ACCESS CLOSES AT 4AM ON 4/4/2026 (night of the event)
+    const REDEMPTION_END_TIME = new Date('2026-04-04T04:00:00-04:00');
+
+    // Guest list code (case-insensitive)
+    const VALID_GUEST_LIST_CODES = ['meow'];
+
+    const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwfxAiO6tGwsyWnfv5l4szNQpWvNZ8HyTGRPQKswm48lcUqBXcSTYRqHVyacyHg7dyC/exec';
+
+    // Audio setup
+    const bgAudio = document.getElementById('bgAudio');
+    const audioNotice = document.getElementById('audioNotice');
+    let audioEnabled = false;
+
+    function enableAudio() {
+      if (!audioEnabled) {
+        bgAudio.play().then(() => {
+          audioEnabled = true;
+          audioNotice.style.display = 'none';
+        }).catch(() => {
+          audioNotice.style.display = 'block';
+        });
+      }
+    }
+
+    document.addEventListener('click', enableAudio, { once: true });
+
+    // Fake visitor counter
+    let visitorCount = 123456;
+    setInterval(() => {
+      visitorCount += Math.floor(Math.random() * 5);
+      document.getElementById('visitors').textContent = visitorCount;
+    }, 3000);
+
+    // Get code and promoter from URL
+    const params = new URLSearchParams(window.location.search);
+    const urlCode = params.get('cid');
+    const promoterId = params.get('pid') || 'direct';
+
+    // Show guest list badge if valid code detected
+    if (urlCode && VALID_GUEST_LIST_CODES.includes(urlCode.toLowerCase())) {
+      document.getElementById('guestListBadge').style.display = 'block';
+    }
+
+    async function submitToGoogleSheets(data) {
+      try {
+        const response = await fetch(GOOGLE_SHEETS_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify(data),
+          redirect: 'follow'
+        });
+        const result = await response.json();
+        return result;
+      } catch (error) {
+        console.error('Failed to submit:', error);
+        return { status: 'error', message: error.toString() };
+      }
+    }
+
+    function checkRedemptionStatus() {
+      const now = new Date();
+      if (now > REDEMPTION_END_TIME) {
+        document.getElementById('formSection').style.display = 'none';
+        document.getElementById('expiredMessage').style.display = 'block';
+        document.getElementById('countdown').style.display = 'none';
+        return false;
+      }
+      return true;
+    }
+
+    function updateCountdown() {
+      const now = new Date();
+      const remaining = REDEMPTION_END_TIME - now;
+
+      if (remaining <= 0) {
+        checkRedemptionStatus();
+        return;
+      }
+
+      const hours = Math.floor(remaining / (1000 * 60 * 60));
+      const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+
+      document.getElementById('timer').textContent =
+        `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+      if (hours < 1) {
+        document.querySelector('.countdown-box').style.background = '#ff0000';
+        document.querySelector('.countdown-timer').style.color = '#ffff00';
+      }
+    }
+
+    // Hide logo if missing
+    const logoImg = document.getElementById('logoImg');
+    logoImg.onerror = function() {
+      this.parentElement.style.display = 'none';
+    };
+
+    // Form submission
+    const form = document.getElementById('accessForm');
+    const submitBtn = document.getElementById('submitBtn');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      if (!checkRedemptionStatus()) return;
+
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(email)) {
+        alert('Please enter a valid email address!');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '⏳ LOADING... ⏳';
+
+      let isValidGuestList = false;
+      let fullCode = '';
+
+      if (urlCode && VALID_GUEST_LIST_CODES.includes(urlCode.toLowerCase())) {
+        isValidGuestList = true;
+        fullCode = urlCode;
+      }
+
+      const result = await submitToGoogleSheets({
+        name: name,
+        email: email,
+        code: fullCode || 'none',
+        pid: promoterId,
+        isValidGuestList: isValidGuestList
+      });
+
+      if (result.status === 'error') {
+        alert('Error submitting! Please try again.');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '🔓 REVEAL THE LOCATION!!! 🔓';
+        return;
+      }
+
+      document.getElementById('formSection').style.display = 'none';
+
+      if (result.isValidCode && !result.alreadyRedeemed) {
+        document.getElementById('guestListInfo').classList.add('show');
+        document.getElementById('guestName').textContent = name.toUpperCase();
+        document.getElementById('vipPassNumber').textContent = fullCode.toUpperCase();
+      } else if (result.isValidCode && result.alreadyRedeemed) {
+        document.getElementById('alreadyRedeemedInfo').classList.add('show');
+        document.getElementById('redeemerName').textContent = result.redeemedByName.toUpperCase();
+      } else {
+        document.getElementById('regularInfo').classList.add('show');
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Initialize
+    if (checkRedemptionStatus()) {
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+    }
+  </script>
+</body>
+</html>
